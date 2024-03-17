@@ -3,7 +3,7 @@ import numpy as np
 from os import listdir
 from os.path import isfile, join
 
-data_path = 'User Detection/Faces/User'
+data_path = 'File_Path'
 #faces폴더에 있는 파일 리스트 얻기
 onlyfiles = [f for f in listdir(data_path) if isfile(join(data_path,f))]
 #데이터와 매칭될 라벨 변수
