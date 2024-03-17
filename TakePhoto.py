@@ -1,16 +1,17 @@
 import cv2
 import numpy as np
 
-face_classifier = cv2.CascadeClassifier('xml.File')
+# 정면 얼굴 인식에 필요한 xml 파일을 가져옵니다.
+face_classifier = cv2.CascadeClassifier('xml.File') 
 
 def face_extractor(img):
-
+    # 이미지를 Gray화 시킨 다음 scalefactor = 1.3 and minNeighbors = 5로 지정합니다.
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     faces = face_classifier.detectMultiScale(gray,1.3,5)
 
     if faces is():
         return None
-
+    # 얼굴이 감지되었을 때, 이미지에서 잘라낼 부분의 비율을 정합니다.
     for(x,y,w,h) in faces:
         cropped_face = img[y:y+h, x:x+w]
 
@@ -19,6 +20,9 @@ def face_extractor(img):
 capture = cv2.VideoCapture(0)
 count = 0
 
+# 웹캠이 켜졌을 때, count가 0에서 1씩 증가하며, 사이즈를(200,200)으로 조정합니다.
+# 사이즈 조정 후 GrayScale로 .jpg형식으로 지정된 경로에 사진들을 저장합니다.
+# 만약 얼굴이 검출되지 않을 경우 "Face not Found" 라는 문구가 출력되어 그냥 넘어갑니다.
 while True:
     ret, frame = capture.read()
     if face_extractor(frame) is not None:
@@ -34,7 +38,7 @@ while True:
     else:
         print("Face not Found")
         pass
-
+# "Enter"키를 누르거나 count 가 100이 되었을 경우 카메라를 강제로 종료합니다.
     if cv2.waitKey(1) == 13 or count == 100:
         break
 
