@@ -33,7 +33,7 @@ model = cv2.face.LBPHFaceRecognizer_create(radius=4,neighbors=4,grid_x=4,grid_y=
 model.train(np.asarray(Training_Data), np.asarray(Labels))
 print("Model Training Complete!!!!!")
 
-face_classifier = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+face_classifier = cv2.CascadeClassifier('xml_File')
 
 def face_detector(img, size = 0.5):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
