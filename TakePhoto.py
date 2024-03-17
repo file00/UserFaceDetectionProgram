@@ -16,7 +16,6 @@ def face_extractor(img):
 
     return cropped_face
 
-
 capture = cv2.VideoCapture(0)
 count = 0
 
