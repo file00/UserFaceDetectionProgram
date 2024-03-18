@@ -20,7 +20,7 @@ for i, files in enumerate(onlyfiles):
     Training_Data.append(np.asarray(images, dtype=np.uint8))
     #Labels 리스트엔 카운트 번호 추가
     Labels.append(i)
-
+# 훈련 할 Data가 없는 경우 종료.
 if len(Labels) == 0:
     print("There is no data to train.")
     exit()
@@ -44,7 +44,7 @@ def face_detector(img, size = 0.5):
         cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,255),2)
         roi = img[y:y+h, x:x+w]
         roi = cv2.resize(roi, (200,200))
-    return img,roi   #검출된 좌표에 사각 박스 그리고(img), 검출된 부위
+    return img,roi   #검출된 좌표에 사각 박스 그리고(img), 검출된 부위를 잘라내어 전달
 
 cap = cv2.VideoCapture(0)
 
@@ -54,10 +54,12 @@ while True:
 
     try:
         face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
+        # 위에서 학습한 모델로 예측을 시도함.
         result = model.predict(face)
 
-        if result[1] < 500:
+        if result[1] < 500: # result[1] == 신뢰도이며, 0에 가까울수록 자신과 같다는 뜻임.
             confidence = int(100*(1-(result[1])/300))
+            # 유사도를 화면에 표시
             display_string = str(confidence)+'% Confidence it is user'
         cv2.putText(image,display_string,(100,50), cv2.FONT_HERSHEY_COMPLEX,1,(250,0,255),2)
 
